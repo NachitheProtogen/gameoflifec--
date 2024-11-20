@@ -70,7 +70,12 @@ void randomize_grid(vector<Cell>& cells) {
     }
 }
 void display(vector<Cell>& cells){
+    #ifdef _WIN32
+    system("CLS");
+    #else
     system("clear");
+    #endif
+
     for (int i = 0; i < rows; i++){
         string rowString = "";
         for (int j = 0; j < cols; j++) {
@@ -102,7 +107,7 @@ int main(int argc, char const *argv[])
             cell.apply_rules();
         }
         display(cells);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
 

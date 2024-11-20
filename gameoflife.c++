@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <thread>
+#include <chrono>
+
 using namespace std;
 
 int rows = 32;
@@ -81,6 +84,21 @@ int main(int argc, char const *argv[])
     vector<Cell> cells;
     create_grid(cells);
     randomize_grid(cells);
+    while (true)
+    {
+        for(auto cell : cells)
+        {
+            cell.count_neighbors(cells);
+            cell.check_rules();
+        }
+        for(auto cell: cells)
+        {
+            cell.apply_rules();
+        }
+        display(cells);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    
 
     return 0;
 }

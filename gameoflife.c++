@@ -38,12 +38,18 @@ public:
         }
     }
     void check_rules() {
-        if(this->alive){
-            if(this->neighbors > 2 || this->neighbors < 3){
-            this->nextIt = false;
-            };
+    if (this->alive) {
+        if (this->neighbors < 2 || this->neighbors > 3) {
+            this->nextIt = false;  // Dies due to underpopulation or overpopulation
         } else {
-            this-> nextIt = true;
+            this->nextIt = true;   // Stays alive if neighbors are exactly 2 or 3
+        }
+    } else {
+        if (this->neighbors == 3) {
+            this->nextIt = true;  // Becomes alive if exactly 3 neighbors
+        } else {
+            this->nextIt = false; // Stays dead
+            }
         }
     }
     void apply_rules(){
@@ -67,7 +73,7 @@ void display(vector<Cell>& cells){
     system("clear");
     for (int i = 0; i < rows; i++){
         string rowString = "";
-        for (int j = 0; i < cols; i++) {
+        for (int j = 0; j < cols; j++) {
             Cell& cell = cells[i * cols + j];
             if (cell.alive) {
                 rowString += "■ ";  // Alive cell
@@ -86,12 +92,12 @@ int main(int argc, char const *argv[])
     randomize_grid(cells);
     while (true)
     {
-        for(auto cell : cells)
+        for(auto& cell : cells)
         {
             cell.count_neighbors(cells);
             cell.check_rules();
         }
-        for(auto cell: cells)
+        for(auto& cell: cells)
         {
             cell.apply_rules();
         }
